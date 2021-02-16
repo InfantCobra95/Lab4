@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var date = (new Date).getFullYear();
+
+
+
+        $(document).ready(function () {
+            $('#locales').change(function () {
+                let selectedOption = $('#locales').val();
+                if (selectedOption != '') {
+                    window.location.replace('?lang=' + selectedOption);
+                }
+            })
+
+            $('#filtrar').click(function () {
+                let nameMovie = document.getElementById("nameFiltro").value
+                let yearMovie = document.getElementById("yearFiltro").value
+                window.location.replace('?name=' + nameMovie + '&year=' + yearMovie);
+            })
+
+            $('#novedad').click(function () {
+                var date = (new Date).getFullYear();
+                console.log(date);
+                //let thisYear = (date.getFullYear).toString;
+
+
+                window.location.replace('?year=' + date);
+            })
+              
+        })
+
+        function movieDetail(id){        
+                window.location.replace('/movie/' + id);
+            }
+        
+
+    </script>
+
+    <style>
+        #idPelicula {
+            display: none;
+        }
+
+        #contenedor {
+            width: auto;
+
+            /* align-content: flex-start; */
+
+            height: auto;
+        }
+
+        #pelicula {
+            /* display: inline-block; */
+            padding-left: 15px;
+        }
+
+        img {
+            width: 250px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 th:text="#{Movie.id}"></h1>
+    <span th:text="#{lang.change}"></span>
+    <select id="locales">
+        <option></option>
+        <option value="en" th:text="#{lang.en}">
+        </option>
+        <option value="es" th:text="#{lang.es}">
+        </option>
+    </select>
+
+    <div id="contenedor">
+        <div id="buscador">
+            <p th:text="#{Movie.name}"></p>
+            <input id="nameFiltro" type="text" />
+            <p th:text="#{Movie.year}"></p>
+            <input id="yearFiltro" type="number" />
+            <button id="filtrar" type="button" th:text="#{Movie.button}"></button>
+            <button id="novedad" type="button" th:text="#{Movie.novedad}"></button>
+        </div>
+        <div id="listadito" th:each="filtroMovies : ${filtroMovies}" th:object="${filtroMovies}">
+
+            <div id="idPelicula" th:text="*{id}"></div>
+            <div th:if="*{year == (#dates.year(#dates.createNow()))}">!NOVEDAD!</div>
+            <div th:text="*{name}"></div>
+            <div th:text="*{year}"></div>
+            <img id="movieDetail" th:src="@{|http://localhost:9091/images/*{img}|}" th:onclick="@{|movieDetail(*{id})|}" />
+        </div>
+    </div>
+
+
+
+
+
+
+
+</body>
+
+</html>

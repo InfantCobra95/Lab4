@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function backMenu(){
+            window.location.replace('/');
+        }
+    </script>
+    <style>
+        #container {
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            display: flex;
+            width: 1500px;
+            /* height: auto; */
+            background-color: lightslategray;
+        }
+
+        #contenedor1{
+            padding-left: 10px;
+            padding-top: 10px;
+            
+        }
+
+        img {
+            width: 300px;
+        }
+
+        #name{
+
+        }
+
+        #year{
+            font-size: 20px;
+        }
+
+        #description{
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <button type="button" th:onclick="backMenu()" th:text="#{movieBack}"></button>
+    <div id="contenedor1">
+        <div id="container" th:each="filtroMovies : ${filtroMovies}" th:object="${filtroMovies}">
+            <div id="contenedorImg">
+                <img th:src="@{|http://localhost:9091/images/*{img}|}"/>
+            </div>
+            <div id="contenedorDatos">
+                <h1 th:if="*{year == (#dates.year(#dates.createNow()))}">!NOVEDAD!</h1>
+                <h1 id="name" th:text="*{name}"></h1>
+                <p id="year"th:text="*{year}" >
+                    
+                </p>
+                <p id="description" th:text="*{desc}" >
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
